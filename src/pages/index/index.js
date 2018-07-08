@@ -26,7 +26,7 @@ export default class Index extends Component {
   componentWillMount () { }
 
   componentDidMount () {
-    wx.showToast({
+    Taro.showToast({
       title: '成功',
       icon: 'success',
       duration: 2000
@@ -43,16 +43,16 @@ export default class Index extends Component {
     return (
       <View className='index_wrap'>
         <View className='header_block' onClick={this.hadleTestRequest}>
-          <Text>Collections</Text>
-          <Text>Discover our handpic</Text>
+          {/*<Text>Collections</Text>
+          <Text>Discover our handpic</Text>*/}
         </View>
         <View className='middle_block'>
           <View className='middle-left middle'></View>
           <View className='middle-right middle'></View>
         </View>
         <View className='footer_block'>
-          <Text>Collections</Text>
-          <Text>Discover our handpic</Text>
+          {/*<Text>Collections</Text>
+          <Text>Discover our handpic</Text>*/}
         </View>
       </View>
     )

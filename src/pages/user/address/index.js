@@ -33,7 +33,7 @@ export default class Index extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-
+  
   render() {
     return (
       <View className='index_wrap'>
@@ -46,11 +46,16 @@ export default class Index extends Component {
                 mode='widthFix' />
               <View className='title'>没有收获地址</View>
               <View className='sub_title'>点击下方按钮新增</View>
-              <Button className='address_btn'>新增地址</Button>
+              <Button onClick={this.handleAddAddress} className='address_btn'>新增地址</Button>
           </View>
         }
       </View>
     )
+  }
+  handleAddAddress () {
+    Taro.navigateTo({
+      url: '/page/user/address/add'
+    })
   }
 }
 
