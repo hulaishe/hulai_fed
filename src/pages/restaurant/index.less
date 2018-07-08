@@ -1,0 +1,131 @@
+.index_wrap{
+  padding: 0 10rpx 100rpx 10rpx;
+  .welcome{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 22;
+    background: #FFF;
+    //background: yellow;
+    .name{
+      width: 120rpx;
+      height: auto;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 100rpx;
+      color: #52ADFF;
+      text-align: center;
+    }
+    .slogan{
+      position: absolute;
+      bottom: 80rpx;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #FF7646;
+      text-align: center;
+    }
+  }
+  .title{
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top:130rpx;
+    text-align: center;
+    color: #000;
+    font-size: 60rpx;
+    animation: fadeInLeft 1s;
+  }
+  .action{
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top:250rpx;
+    text-align: center;
+    color: #5D5D5D;
+    font-size: 48rpx;
+    animation: fadeInRight 1s;
+  }
+  .start{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 300rpx;
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 100%;
+    background: #505050;
+    text-align: center;
+    line-height: 160rpx;
+    color: #868686;
+    font-size: 64rpx;
+  }
+  .showRouter{
+    animation: fadeInOut 1s;
+  }
+  @keyframes fadeInOut {
+    100% {
+      width: 160rpx;
+      height: 160rpx;
+      line-height: 160rpx;
+      font-size: 48rpx;
+    }
+
+    0% {
+      width: 500rpx;
+      height: 500rpx;
+      line-height: 500rpx;
+      font-size: 96rpx;
+    }
+  }
+  @-webkit-keyframes fadeInLeft {
+  0% {
+      opacity: 0;
+      left:-50%;
+    }
+
+    100% {
+      opacity: 1;
+      left:50%;
+    }
+  }
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      left:-50%;
+    }
+
+    100% {
+      opacity: 1;
+      left:50%;
+    }
+  }
+  @-webkit-keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        left:100%;
+      }
+
+      100% {
+        opacity: 1;
+        left:50%;
+      }
+  }
+
+  @keyframes fadeInRight {
+    0% {
+      opacity: 0;
+      left:100%;
+    }
+
+    100% {
+      opacity: 1;
+      left:50%;
+    }
+  }
+}
