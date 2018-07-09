@@ -54,7 +54,7 @@ export default class Index extends Component {
   }
   handleAddAddress () {
     Taro.navigateTo({
-      url: '/page/user/address/add'
+      url: '/pages/user/address/add'
     })
   }
 }

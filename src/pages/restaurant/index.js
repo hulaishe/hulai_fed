@@ -53,11 +53,16 @@ export default class Index extends Component {
           </View> : <View>
               <View className='title'>欢迎来到胡来餐厅</View>
               <View className='action'>胡来一顿</View>
-              <View className='start showRouter'>点餐</View>
+              <View className='start showRouter' onClick={this.handleStart}>点餐</View>
           </View>
         }
       </View>
     )
+  }
+  handleStart () {
+    Taro.navigateTo({
+      url: '/pages/user/address/index'
+    })
   }
 }
 
