@@ -10,6 +10,7 @@ const store = configStore()
 class App extends Component {
   config = {
     pages: [
+      'pages/login/index',
       'pages/index/index',
       'pages/order/index',
       'pages/user/index',
@@ -54,7 +55,20 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    let sysInfo = wx.getSystemInfoSync()
+    let version = sysInfo.SDKVersion && sysInfo.SDKVersion.split('.')
+    if (version) {
+      version = parseFloat(`${version[0]}.${version[1]}${version[2]}}`)
+      wx.setStorageSync('SDKversion', version)
+      if (version < 1.44) {
+        wx.showModal({
+          title: '提示',
+          content: '当前微信版本过低，将影响小程序的正常使用，请升级到最新微信版本后重试。'
+        })
+      }
+    }
+  }
 
   componentDidShow () {}
 
