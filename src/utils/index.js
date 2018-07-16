@@ -1,4 +1,17 @@
 const utils = {
+  isArray(obj) {
+    return toString.call(obj) === '[object Array]'
+  },
+  isObject(obj) {
+    return toString.call(obj) === '[object Object]'
+  },
+  isNumber(num) {
+    if (parseFloat(num).toString() === 'NaN') {
+      return false
+    } else {
+      return true
+    }
+  },
   removeStaticSourceHTTPSchema(data) {
     if (typeof data === 'string') {
       if (/^http:/.test(data)) {
