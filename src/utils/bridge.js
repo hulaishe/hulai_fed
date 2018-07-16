@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 const bridge = {}
+
 bridge.login = () => {
   return new Promise((resolve, reject) => {
     Taro.login({

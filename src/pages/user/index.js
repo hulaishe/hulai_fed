@@ -20,18 +20,11 @@ import help from '../../resource/help.png'
 import coustome from '../../resource/coustome.png'
 
 
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  add() {
-    dispatch(add())
-  },
-  dec() {
-    dispatch(minus())
-  },
-  asyncAdd() {
-    dispatch(asyncAdd())
+@connect(state => {
+  return {
+    user: state.user
   }
+}, (dispatch) => ({
 }))
 export default class Index extends Component {
   config = {
@@ -39,7 +32,9 @@ export default class Index extends Component {
   }
   componentWillMount () { }
 
-  componentDidMount () { }
+  componentDidMount () {
+    console.log(this.props.user)
+  }
 
   componentWillUnmount () { }
 
@@ -98,14 +93,16 @@ export default class Index extends Component {
         title: '客服中心'
       }
     ]
+    let userInfo = this.props.user && this.props.user.userInfo
+    let avatarCache = Taro.getStorageSync('_marketing_icon')
     return (
       <View className='index_wrap'>
         <View className='user_header'>
           <Image
             className='user_avatar'
-            src={avatar_default} />
+            src={avatarCache || avatar_default} />
           <View className='user_info'>
-            <Text className='user_name'>{'西爽'}</Text>
+            <Text className='user_name'>{userInfo.nickName || '用户名'}({userInfo.city || '城市'})</Text>
             <Text className='user_phone'>{'188888888888'}</Text>
           </View>
         </View>

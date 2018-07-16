@@ -1,19 +1,28 @@
 import Taro from '@tarojs/taro'
 import CONSTANTS from '../constants'
 import utils from '../utils'
+
+const configUrl = (api, params) => {
+  // if (api === '') {
+  //   let timestamp = +new Date()
+  //   let token = Taro.getStorageSync('esid') || ''
+  //   api += `?sign=${utils.sign(token, Object.assign({}, params, { t: timestamp }))}&t=${timestamp}`
+  // } else {
+  // }
+  api += `?t=${+new Date()}`
+  return api + `&appType=${CONSTANTS.APP_TYPE}`
+}
+
 const success = (res, resolve, reject) => {
   if (res && parseInt(res.statusCode) >= 400) {
     return reject({ code: parseInt(res.statusCode), msg: res.statusCode + '访问失败' })
   }
 
   if (res.data && res.data.code === CONSTANTS.API_CODE_NEED_LOGIN) {
-    bridge.hideLoading()
-    if (!wemix.$instance.$wxapp.globalData.isLogin) {
-      wemix.$instance.$wxapp.globalData.isLogin = true
-      return bridge.reLaunch('/pages/login')
-    } else {
-      return
-    }
+    Taro.hideLoading()
+    return Taro.reLaunch({
+      url: '/pages/login/index'
+    })
   }
 
   if (res.data && !res.data.success) {
@@ -25,74 +34,57 @@ const success = (res, resolve, reject) => {
   }
 }
 
-const configUrl = (api, params) => {
-  // if (api === '') {
-  //   let timestamp = +new Date()
-  //   let token = wx.getStorageSync('esid') || ''
-  //   api += `?sign=${utils.sign(token, Object.assign({}, params, { t: timestamp }))}&t=${timestamp}`
-  // } else {
-  // }
-  api += `?t=${+new Date()}`
-  return api + `&appType=${CONSTANTS.APP_TYPE}`
+const fail = (error, reject) => {
+  if (error && (error.msg || error.errMsg || error.message)) {
+    error = { code: error.code || -1, msg: error.msg || error.errMsg || error.message }
+  } else {
+    error = { code: error.code || -1, msg: JSON.stringify(error) }
+  }
+  reject(error)
 }
 
 export const fetchGet = (url, params = {}) => {
-  let token = wx.getStorageSync('esid') || ''
+  let token = Taro.getStorageSync('ssk') || ''
   return new Promise((resolve, reject) => {
     Taro.request({
       url: (CONSTANTS.DEBUG ? CONSTANTS.DEV_DOMAIN : CONSTANTS.DOMAIN) + configUrl(url, params),
       method: 'GET',
-      data: { data: JSON.stringify(params) },
+      data: params,
       header: {
         'content-type': 'application/json',
         'X-LHC-Token': token,
         'X-LHC-Type': 'WECHATSP'
-      },
-      success: (res) => {
-        success(res, resolve, reject)
-      },
-      fail: (error) => {
-        console.warn(error)
-        if (error && (error.msg || error.errMsg || error.message)) {
-          error = { code: error.code || -1, msg: error.msg || error.errMsg || error.message }
-        } else {
-          error = { code: error.code || -1, msg: JSON.stringify(error) }
-        }
-        reject(error)
       }
+    }).then((res) => {
+      success(res, resolve, reject)
+    }).catch(error => {
+      fail(error, reject)
     })
   })
 }
 
 export const fetchPost = (url, params = {}) => {
-  let token = wx.getStorageSync('esid') || ''
+  let ssk = Taro.getStorageSync('ssk') || ''
   return new Promise((resolve, reject) => {
     Taro.request({
-      url: (CONSTANTS.DEBUG ? CONSTANTS.DEV_DOMAIN : CONSTANTS.DOMAIN) + configUrl(url, params),
-      method: 'POST',
-      data: { data: JSON.stringify(params) },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'X-LHC-Token': token,
-        'X-LHC-Type': 'WECHATSP'
-      },
-      success: (res) => {
-        success(res, resolve, reject)
-      },
-      fail: (error) => {
-        if (error && (error.msg || error.errMsg || error.message)) {
-          error = { code: error.code || -1, msg: error.msg || error.errMsg || error.message }
-        } else {
-          error = { code: error.code || -1, msg: JSON.stringify(error) }
-        }
-        reject(error)
-      }
+    url: (CONSTANTS.DEBUG ? CONSTANTS.DEV_DOMAIN : CONSTANTS.DOMAIN) + configUrl(url, params),
+    method: 'POST',
+    data: JSON.stringify(params),
+    header: {
+      'content-type': 'application/json',
+      'X-LHC-Token': ssk,
+      'X-LHC-Type': 'WECHATSP'
+    }
+    }).then((res) => {
+      success(res, resolve, reject)
+    }).catch(error => {
+      fail(error, reject)
     })
   })
 }
 
 export const fetchUpload = (params = {}) => {
-  let token = wx.getStorageSync('esid') || ''
+  let ssk = Taro.getStorageSync('ssk') || ''
   return new Promise((resolve, reject) => {
     Taro.uploadFile({
       url: (CONSTANTS.DEBUG ? CONSTANTS.DEV_DOMAIN : CONSTANTS.DOMAIN) + 'image/upload',
@@ -100,7 +92,7 @@ export const fetchUpload = (params = {}) => {
       name: 'file',
       header: {
         'content-type': 'multipart/form-data',
-        'X-LHC-Token': token,
+        'X-LHC-Token': ssk,
         'X-LHC-Type': 'WECHATSP'
       },
       success: (res) => {
@@ -110,12 +102,7 @@ export const fetchUpload = (params = {}) => {
         success(res, resolve, reject)
       },
       fail: (error) => {
-        if (error && (error.msg || error.errMsg || error.message)) {
-          error = { code: error.code || -1, msg: error.msg || error.errMsg || error.message }
-        } else {
-          error = { code: error.code || -1, msg: JSON.stringify(error) }
-        }
-        reject(error)
+        fail(error, reject)
       }
     })
   })

@@ -1,21 +1,15 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { add, minus, asyncAdd } from '../../actions/counter'
-import { fetchPost } from '../../utils/fetch'
+import { userInfoSave } from '../../actions/user'
+import { fetchPost, fetchGet } from '../../utils/fetch'
 // import Tab from '../../components/common/tab'
 import './index.less'
-@connect(({ counter }) => ({
-  counter
+@connect(({ user }) => ({
+  user
 }), (dispatch) => ({
-  add() {
-    dispatch(add())
-  },
-  dec() {
-    dispatch(minus())
-  },
-  asyncAdd() {
-    dispatch(asyncAdd())
+  userInfoSave(res) {
+    dispatch(userInfoSave(res))
   }
 }))
 export default class Index extends Component {
@@ -47,16 +41,62 @@ export default class Index extends Component {
   getUserInfo (e) {
     if (/getUserInfo:ok/.test(e.detail.errMsg)) {
       const { nickName, avatarUrl } = e.detail.userInfo
-      wx.setStorageSync('_marketing_nick', nickName)
-      wx.setStorageSync('_marketing_icon', avatarUrl)
-      wx.showLoading('正在登录中...')
-      Taro.login().then((res) => {
-        return fetchPost('/api/v1/oauth/welogin', { code: res.code, encryptedData: e.detail.encryptedData, iv: e.detail.iv })
-      }).then((res) => {
-        console.log(res)
-      }).catch((error) => {
-        console.log(error)
+      Taro.setStorageSync('_marketing_nick', nickName)
+      Taro.setStorageSync('_marketing_icon', avatarUrl)
+      Taro.showLoading({
+        title: '正在登录中...'
       })
+      let sskCache = Taro.getStorageSync('ssk')
+      if (sskCache) {
+        let params = {
+          ssk: sskCache,
+          encryptedData: e.detail.encryptedData,
+          iv: e.detail.iv,
+          sign: e.detail.signature,
+          rawData: e.detail.rawData
+        }
+        fetchPost('/api/v1/oauth/welogin', params).then(res => {
+          this.props.userInfoSave(res)
+          Taro.reLaunch({
+            url: '/pages/user/index'
+          })
+        }).catch(error => {
+          console.log(error)
+          Taro.showToast({
+            title: `${error.msg}`,
+            icon: 'none',
+            duration: 2000
+          })
+        })
+      } else {
+        Taro.login().then((res) => {
+          let code = res.code
+          return fetchGet('/api/v1/oauth/sessionkey', { code })
+        }).then(res => {
+          let ssk = res.sessionKey
+          Taro.setStorageSync('ssk', ssk)
+          let params = {
+            ssk,
+            encryptedData: e.detail.encryptedData,
+            iv: e.detail.iv,
+            sign: e.detail.signature,
+            rawData: e.detail.rawData
+          }
+          return fetchPost('/api/v1/oauth/welogin', params)
+        }).then(res => {
+          this.props.userInfoSave(res)
+          Taro.reLaunch({
+            url: '/pages/user/index'
+          })
+        }).catch(error => {
+          console.log(error)
+          Taro.showToast({
+            title: `${error.msg}`,
+            icon: 'none',
+            duration: 2000
+          })
+        })
+      }
     }
   }
 }

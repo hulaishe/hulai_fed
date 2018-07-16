@@ -59,7 +59,7 @@ export default class Index extends Component {
   }
   // wx
   // hadleTestRequest () {
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -69,7 +69,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -79,7 +79,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -89,7 +89,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -99,7 +99,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -109,7 +109,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -119,7 +119,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -129,7 +129,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -139,7 +139,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -149,7 +149,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -159,7 +159,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -169,7 +169,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -179,7 +179,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -189,7 +189,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -199,7 +199,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -209,7 +209,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -219,7 +219,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
@@ -229,7 +229,7 @@ export default class Index extends Component {
   //       'content-type': 'application/json'
   //     }
   //   })
-  //   wx.request({
+  //   Taro.request({
   //     url: 'http://localhost:3100/user/profile',
   //     data: {
   //       foo: 'foo',
