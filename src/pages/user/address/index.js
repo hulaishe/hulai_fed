@@ -1,18 +1,21 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-
-
+import { fetchGet } from '../../../utils/fetch'
+import { userInfoSaveAddress } from '../../../actions/user/address'
 // import Tab from '../../components/common/tab'
 import './index.less'
 
 //static of image
 import noAddress from '../../../resource/noAddress.png'
-
-@connect(({ counter }) => ({
-  counter
+@connect(({ userAddress }) => ({
+  userAddress
 }), (dispatch) => ({
+  userInfoSaveAddress(res) {
+    dispatch(userInfoSaveAddress(res))
+  }
 }))
+
 export default class Index extends Component {
   constructor(props) {
     super(props)
@@ -26,7 +29,18 @@ export default class Index extends Component {
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount() {
+    fetchGet('/api/v1/user2addr/gets').then(res => {
+      this.props.userInfoSaveAddress(res)
+    }).catch(error => {
+      console.log(error)
+      Taro.showToast({
+        title: `${error.msg}`,
+        icon: 'none',
+        duration: 2000
+      })
+    })
+  }
 
   componentWillUnmount() { }
 

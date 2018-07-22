@@ -12,6 +12,11 @@ const utils = {
       return true
     }
   },
+  isPhoneNumber (obj) {
+    let out = parseInt(obj)
+    if (isNaN(out)) return false
+    return /^1[3456789]\d{9}$/.test(out)
+  },
   removeStaticSourceHTTPSchema(data) {
     if (typeof data === 'string') {
       if (/^http:/.test(data)) {

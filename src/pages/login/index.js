@@ -47,56 +47,67 @@ export default class Index extends Component {
         title: '正在登录中...'
       })
       let sskCache = Taro.getStorageSync('ssk')
-      if (sskCache) {
-        let params = {
-          ssk: sskCache,
-          encryptedData: e.detail.encryptedData,
-          iv: e.detail.iv,
-          sign: e.detail.signature,
-          rawData: e.detail.rawData
-        }
-        fetchPost('/api/v1/oauth/welogin', params).then(res => {
-          this.props.userInfoSave(res)
-          Taro.reLaunch({
-            url: '/pages/user/index'
-          })
-        }).catch(error => {
-          console.log(error)
-          Taro.showToast({
-            title: `${error.msg}`,
-            icon: 'none',
-            duration: 2000
-          })
-        })
-      } else {
-        Taro.login().then((res) => {
-          let code = res.code
-          return fetchGet('/api/v1/oauth/sessionkey', { code })
-        }).then(res => {
-          let ssk = res.sessionKey
-          Taro.setStorageSync('ssk', ssk)
+      let _this = this
+      wx.checkSession({
+        success: function () {
+          //session_key 未过期，并且在本生命周期一直有效
           let params = {
-            ssk,
+            ssk: sskCache,
             encryptedData: e.detail.encryptedData,
             iv: e.detail.iv,
             sign: e.detail.signature,
             rawData: e.detail.rawData
           }
-          return fetchPost('/api/v1/oauth/welogin', params)
-        }).then(res => {
-          this.props.userInfoSave(res)
-          Taro.reLaunch({
-            url: '/pages/user/index'
+          fetchPost('/api/v1/oauth/welogin', params).then(res => {
+            debugger
+            let sid = res.sid
+            Taro.setStorageSync('sid', sid)
+            _this.props.userInfoSave(res)
+            Taro.reLaunch({
+              url: '/pages/user/index'
+            })
+          }).catch(error => {
+            // console.log(error)
+            Taro.showToast({
+              title: `${error.msg}`,
+              icon: 'none',
+              duration: 2000
+            })
           })
-        }).catch(error => {
-          console.log(error)
-          Taro.showToast({
-            title: `${error.msg}`,
-            icon: 'none',
-            duration: 2000
+        },
+        fail: function () {
+          // session_key 已经失效，需要重新执行登录流程
+          Taro.login().then((res) => {
+            let code = res.code
+            return fetchGet('/api/v1/oauth/sessionkey', { code })
+          }).then(res => {
+            let ssk = res.sessionKey
+            Taro.setStorageSync('ssk', ssk)
+            let params = {
+              ssk,
+              encryptedData: e.detail.encryptedData,
+              iv: e.detail.iv,
+              sign: e.detail.signature,
+              rawData: e.detail.rawData
+            }
+            return fetchPost('/api/v1/oauth/welogin', params)
+          }).then(res => {
+            let sid = res.sid
+            Taro.setStorageSync('sid', sid)
+            _this.props.userInfoSave(res)
+            Taro.reLaunch({
+              url: '/pages/user/index'
+            })
+          }).catch(error => {
+            // console.log(error)
+            Taro.showToast({
+              title: `${error.msg}`,
+              icon: 'none',
+              duration: 2000
+            })
           })
-        })
-      }
+        }
+      })
     }
   }
 }

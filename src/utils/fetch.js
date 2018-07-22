@@ -44,7 +44,7 @@ const fail = (error, reject) => {
 }
 
 export const fetchGet = (url, params = {}) => {
-  let token = Taro.getStorageSync('ssk') || ''
+  let token = Taro.getStorageSync('sid') || ''
   return new Promise((resolve, reject) => {
     Taro.request({
       url: (CONSTANTS.DEBUG ? CONSTANTS.DEV_DOMAIN : CONSTANTS.DOMAIN) + configUrl(url, params),
@@ -52,8 +52,8 @@ export const fetchGet = (url, params = {}) => {
       data: params,
       header: {
         'content-type': 'application/json',
-        'X-LHC-Token': token,
-        'X-LHC-Type': 'WECHATSP'
+        'X-HULAI-Token': token,
+        'X-HULAI-Type': 'WECHATSP'
       }
     }).then((res) => {
       success(res, resolve, reject)
@@ -64,7 +64,7 @@ export const fetchGet = (url, params = {}) => {
 }
 
 export const fetchPost = (url, params = {}) => {
-  let ssk = Taro.getStorageSync('ssk') || ''
+  let token = Taro.getStorageSync('sid') || ''
   return new Promise((resolve, reject) => {
     Taro.request({
     url: (CONSTANTS.DEBUG ? CONSTANTS.DEV_DOMAIN : CONSTANTS.DOMAIN) + configUrl(url, params),
@@ -72,8 +72,8 @@ export const fetchPost = (url, params = {}) => {
     data: JSON.stringify(params),
     header: {
       'content-type': 'application/json',
-      'X-LHC-Token': ssk,
-      'X-LHC-Type': 'WECHATSP'
+      'X-HULAI-Token': token,
+      'X-HULAI-Type': 'WECHATSP'
     }
     }).then((res) => {
       success(res, resolve, reject)
@@ -84,7 +84,7 @@ export const fetchPost = (url, params = {}) => {
 }
 
 export const fetchUpload = (params = {}) => {
-  let ssk = Taro.getStorageSync('ssk') || ''
+  let token = Taro.getStorageSync('sid') || ''
   return new Promise((resolve, reject) => {
     Taro.uploadFile({
       url: (CONSTANTS.DEBUG ? CONSTANTS.DEV_DOMAIN : CONSTANTS.DOMAIN) + 'image/upload',
@@ -92,8 +92,8 @@ export const fetchUpload = (params = {}) => {
       name: 'file',
       header: {
         'content-type': 'multipart/form-data',
-        'X-LHC-Token': ssk,
-        'X-LHC-Type': 'WECHATSP'
+        'X-HULAI-Token': token,
+        'X-HULAI-Type': 'WECHATSP'
       },
       success: (res) => {
         if (parseInt(res.statusCode) === 200 && res.data) {

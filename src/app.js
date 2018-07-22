@@ -10,13 +10,15 @@ const store = configStore()
 class App extends Component {
   config = {
     pages: [
+
       'pages/login/index',
       'pages/index/index',
       'pages/order/index',
       'pages/user/index',
-      'pages/restaurant/index',
       'pages/user/address/add',
       'pages/user/address/index',
+      'pages/restaurant/index',
+
     ],
     window: {
       'navigationBarTitleText': '胡来社'
